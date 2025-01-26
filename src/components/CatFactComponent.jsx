@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import MessageComponent from "./MessageComponent";
+import "../styles.css";
 
 const CatFactComponent = ({ apiUrl }) => {
   const [data, setData] = useState(null);
@@ -7,14 +8,21 @@ const CatFactComponent = ({ apiUrl }) => {
 
   const fetchData = async () => {
     try {
-      const response = await fetch(apiUrl);
-      const json = await response.json();
+        const response = await fetch(apiUrl, {
+            method: "GET",
+            headers: {
+              "Accept": "application/json",
+              "X-CSRF-TOKEN": "x0kPItoVsEbWFMwXSnHCfMh4FmZBx8LAMHb4Fnz3",
+            },
+          });
+    
+          const json = await response.json();
 
       if (!response.ok) {
         throw new Error(`Ошибка ${response.status}: ${json.message || "Что-то пошло не так"}`);
       }
 
-      setData(json.data[0]?.fact || "Факт не найден");
+      setData(json.fact || "Факт не найден");
       setError(null);
     } catch (err) {
       setError(err.message);
@@ -24,18 +32,7 @@ const CatFactComponent = ({ apiUrl }) => {
 
   return (
     <div style={{ textAlign: "center" }}>
-      <button
-        onClick={fetchData}
-        style={{
-          padding: "10px 20px",
-          fontSize: "16px",
-          color: "white",
-          backgroundColor: "#007bff",
-          border: "none",
-          borderRadius: "8px",
-          cursor: "pointer",
-        }}
-      >
+      <button className="fetch-button" onClick={fetchData}>
         Запросить факт
       </button>
       <div>

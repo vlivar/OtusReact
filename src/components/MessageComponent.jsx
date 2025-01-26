@@ -1,23 +1,14 @@
 import React from "react";
+import "../styles.css";
 
-const MessageCard = ({ message, isError }) => {
+const MessageComponent = ({ message, isError }) => {
   return (
     <div
-      style={{
-        padding: "16px",
-        borderRadius: "12px",
-        fontSize: "18px",
-        color: "white",
-        backgroundColor: isError ? "red" : "green",
-        marginTop: "16px",
-        textAlign: "center",
-        maxWidth: "400px",
-        margin: "0 auto",
-      }}
+      className={`message-card ${isError ? "message-error" : "message-success"}`}
     >
       {message}
     </div>
   );
 };
 
-export default MessageCard;
+export default MessageComponent;
