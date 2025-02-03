@@ -1,22 +1,37 @@
-import "./styles.css";
-import { Routes, Route } from "react-router-dom";
+import React from 'react';
+import { Routes, Route } from 'react-router-dom';
+import { useSelector} from 'react-redux';
+import { createTheme, ThemeProvider, CssBaseline } from '@mui/material';
 
-import { NavigationBar } from "./components/NavigationBar";
-import HomePage from "./components/HomePage";
-import Login from "./components/LoginPage";
-import Register from "./components/RegisterPage";
-import NotFoundPage from "./components/NotFoundPage";
+import NavigationBar from './components/navigationBar';
+import HomePage from './components/homePage';
+import LoginPage from './components/loginPage';
+import RegisterPage from './components/registerPage';
+import NotFoundPage from './components/notFoundPage';
+import ThemeSwitcher from './components/themeSwitcher';
 
-export default function App() {
+const App = () => {
+  const darkMode = useSelector((state) => state.theme.darkMode);
+
+  const theme = createTheme({
+    palette: {
+      mode: darkMode ? 'dark' : 'light',
+    },
+  });
+
   return (
-    <>
-      <NavigationBar />
-      <Routes>
-        <Route index element={<HomePage />} />
-        <Route path="login" element={<Login />} />
-        <Route path="register" element={<Register />} />
-        <Route path="*" element={<NotFoundPage />} />
-      </Routes>
-    </>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <NavigationBar />
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/register" element={<RegisterPage />} />
+          <Route path="*" element={<NotFoundPage />} />
+        </Routes>
+        <ThemeSwitcher />
+      </ThemeProvider>
   );
-}
+};
+
+export default App;
