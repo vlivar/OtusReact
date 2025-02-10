@@ -7,26 +7,22 @@ const CatFactComponent = ({ apiUrl }) => {
   const [error, setError] = useState(null);
 
   const fetchData = async () => {
-    try {
-        const response = await fetch(apiUrl, {
-            method: "GET",
-            headers: {
-              "Accept": "application/json",
-              "X-CSRF-TOKEN": "x0kPItoVsEbWFMwXSnHCfMh4FmZBx8LAMHb4Fnz3",
-            },
-          });
-    
-          const json = await response.json();
 
-      if (!response.ok) {
-        throw new Error(`Ошибка ${response.status}: ${json.message || "Что-то пошло не так"}`);
-      }
+    const response = await fetch(apiUrl, {
+      method: "GET",
+      headers: {
+        "Accept": "application/json",
+        "X-CSRF-TOKEN": "x0kPItoVsEbWFMwXSnHCfMh4FmZBx8LAMHb4Fnz3",
+      },
+    });
 
-      setData(json.fact || "Факт не найден");
+    if (response.ok) {
+      const json = await response.json();
+      setData(json.fact);
       setError(null);
-    } catch (err) {
-      setError(err.message);
+    } else {
       setData(null);
+      setError("Error: status code " + response.status);
     }
   };
 
