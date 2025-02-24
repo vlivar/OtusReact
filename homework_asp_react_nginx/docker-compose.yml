@@ -1,0 +1,15 @@
+services:
+  backend:
+    image: ${DOCKER_REGISTRY-}webapi
+    build:
+      context: ./WebApi
+      dockerfile: Dockerfile
+
+  front:
+    image: front
+    build:
+      context: ./front
+      dockerfile: Dockerfile
+
+  proxy:
+    image: nginx:mainline
